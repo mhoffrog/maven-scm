@@ -18,8 +18,6 @@
  */
 package org.apache.maven.scm.provider.git.repository;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -261,21 +259,11 @@ public class GitScmProviderRepository extends ScmProviderRepositoryWithHost {
             }
 
             if (userName != null && userName.length() > 0) {
-                String userInfo = userName;
+                String userInfo = GitUtil.encodeURIComponent(userName);
                 if (password != null && password.length() > 0) {
-                    userInfo += ":" + password;
+                    userInfo += ":" + GitUtil.encodeURIComponent(password);
                 }
-
-                try {
-                    URI uri = new URI(null, userInfo, "localhost", -1, null, null, null);
-                    urlSb.append(uri.getRawUserInfo());
-                } catch (URISyntaxException e) {
-                    // Quite impossible...
-                    // Otherwise throw a RTE since this method is also used by toString()
-                    e.printStackTrace();
-                }
-
-                urlSb.append('@');
+                urlSb.append(userInfo).append('@');
             }
         }
 
