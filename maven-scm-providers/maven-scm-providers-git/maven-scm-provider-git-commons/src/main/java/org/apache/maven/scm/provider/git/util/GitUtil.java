@@ -20,6 +20,9 @@ package org.apache.maven.scm.provider.git.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -85,6 +88,34 @@ public class GitUtil {
 
     public static File getSettingsFile() {
         return new File(settingsDirectory, GIT_SETTINGS_FILENAME);
+    }
+
+    /**
+     * Encodes the passed String as UTF-8 using an algorithm that's
+     * compatible with JavaScript's <code>encodeURIComponent</code> function.
+     * Returns <code>null</code> if the String is <code>null</code>.
+     * See http://stackoverflow.com/questions/607176/java-equivalent-to-javascripts-encodeuricomponent-that-produces-identical-output
+     *
+     * @author John Topley
+     * @param s The String to be encoded
+     * @return the encoded String
+     */
+    public static String encodeURIComponent(String s) {
+        String result = s;
+        if (s != null) {
+            try {
+                result = URLEncoder.encode(s, StandardCharsets.UTF_8.name()) // nl
+                        .replaceAll("\\+", "%20") // nl
+                        .replaceAll("\\%21", "!") // nl
+                        .replaceAll("\\%27", "'") // nl
+                        .replaceAll("\\%28", "(") // nl
+                        .replaceAll("\\%29", ")") // nl
+                        .replaceAll("\\%7E", "~");
+            } catch (UnsupportedEncodingException e) {
+                // This exception should never occur.
+            }
+        }
+        return result;
     }
 
     /**
