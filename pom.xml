@@ -146,8 +146,13 @@
   </modules>
 
   <scm>
-    <connection>scm:git:https://gitbox.apache.org/repos/asf/maven-scm.git</connection>
-    <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/maven-scm.git</developerConnection>
+    <!-- {@patch -->
+    <!-- <connection>scm:git:https://gitbox.apache.org/repos/asf/maven-scm.git</connection> -->
+    <!-- <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/maven-scm.git</developerConnection> -->
+    <!-- fork by mhoffrog -->
+    <connection>scm:git:https://github.com/mhoffrog/maven-scm.git</connection>
+    <developerConnection>scm:git:https://github.com/mhoffrog/maven-scm.git</developerConnection>
+    <!-- @patch} -->
     <tag>maven-scm-2.0.0</tag>
     <url>https://github.com/apache/maven-scm/tree/${project.scm.tag}</url>
   </scm>
@@ -322,6 +327,15 @@
   <build>
     <pluginManagement>
       <plugins>
+        <!-- {@patch -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <configuration>
+            <deployAtEnd>true</deployAtEnd>
+          </configuration>
+        </plugin>
+        <!-- @patch} -->
         <plugin>
           <groupId>org.apache.rat</groupId>
           <artifactId>apache-rat-plugin</artifactId>
