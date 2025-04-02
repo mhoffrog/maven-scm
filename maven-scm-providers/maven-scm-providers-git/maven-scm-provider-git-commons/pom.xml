@@ -98,4 +98,41 @@
       </plugin>
     </plugins>
   </build>
+
+  <!-- {@patch -->
+  <profiles>
+    <profile>
+      <id>only-eclipse</id>
+      <activation>
+        <property>
+          <name>m2e.version</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <version>3.3.0</version>
+            <executions>
+              <execution>
+                <id>add-modello-sources</id>
+                <goals>
+                  <goal>add-source</goal>
+                </goals>
+                <phase>generate-sources</phase>
+                <configuration>
+                  <sources>
+                    <source>target/generated-sources/modello</source>
+                  </sources>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+  <!-- @patch} -->
+
 </project>
